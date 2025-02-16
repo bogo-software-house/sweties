@@ -21,4 +21,8 @@ class Pembeli extends Model
         'alamat',
     ];
 
+    public function transaction()
+    {
+        return $this->hasMany(Transaction::class, 'id_pembeli', 'id_pembeli');
+    }
 }

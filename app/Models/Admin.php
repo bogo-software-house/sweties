@@ -25,8 +25,9 @@ class Admin extends Model
         'password',
     ];
 
-    public function admin()
+    // relasi ke transaction
+    public function transaction()
     {
-        return $this->hasMany(admin::class, 'id_admin', 'id_admin');
+        return $this->hasMany(Transaction::class, 'id_admin', 'id_admin');
     }
 }
