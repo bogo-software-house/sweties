@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('wa');
             $table->string('alamat');
+            $table->integer('point_pembeli');
             $table->timestamps();
         });
     }
