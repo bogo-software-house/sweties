@@ -10,43 +10,55 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\User;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
-     * Display the login view.
+
+
+     /**
+     * Display the registration view.
      */
     public function create(): Response
     {
-        return Inertia::render('Auth/Login', [
-            'canResetPassword' => Route::has('password.request'),
-            'status' => session('status'),
-        ]);
+        return Inertia::render('Auth/Login');
     }
 
     /**
-     * Handle an incoming authentication request.
+     * Display the login view.
      */
-    public function store(LoginRequest $request): RedirectResponse
-    {
-        $request->authenticate();
+  // Fungsi untuk login
+  public function store(Request $request)
+  {
+      $credentials = $request->validate([
+          'email' => ['required', 'email'],
+          'password' => ['required'],
+      ]);
 
-        $request->session()->regenerate();
+      if (Auth::attempt($credentials)) {
+          $user = Auth::user();
+          $token = $user->createToken('authToken')->plainTextToken; // Generate token untuk API auth
 
-        return redirect()->intended(route('dashboard', absolute: false));
-    }
+          return response()->json([
+              'message' => 'Login successful',
+              'user' => $user,
+              'token' => $token
+          ]);
+      }
 
-    /**
-     * Destroy an authenticated session.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        Auth::guard('web')->logout();
+      return response()->json([
+          'message' => 'Invalid credentials'
+      ], 401);
+  }
 
-        $request->session()->invalidate();
+  // Fungsi untuk logout
+  public function destroy(Request $request)
+  {
+      $user = $request->user();
+      $user->tokens()->delete(); // Hapus semua token API pengguna
 
-        $request->session()->regenerateToken();
-
-        return redirect('/');
-    }
+      return response()->json([
+          'message' => 'Logged out successfully'
+      ]);
+  }
 }
