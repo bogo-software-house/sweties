@@ -34,6 +34,8 @@ class RegisteredUserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
+            'wa' => 'required|string|max:13',
+            'alamat' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
@@ -47,7 +49,10 @@ class RegisteredUserController extends Controller
 
         $user = User::create([
             'name' => $request->name,
+            'wa'   => $request->wa,
+            'alamat'   => $request->alamat,
             'email' => $request->email,
+            'point_pembeli' => 0,
             'password' => Hash::make($request->password),
         ]);
 

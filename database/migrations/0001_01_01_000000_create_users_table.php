@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('password');
             $table->string('wa');
             $table->string('alamat');
-            $table->enum('role', ['pembeli'])->after('email');
-            $table->integer('point_pembeli');
+            $table->enum('role', ['pembeli']);
+            $table->integer('point_pembeli')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
