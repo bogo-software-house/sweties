@@ -3,19 +3,20 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Vochercode;
 use Illuminate\Http\Request;
-use App\Http\Resources\ApiResource\PointResource;
-use App\Models\User;
+use App\Http\Resources\ApiResource\VocherResource;
 
-class PointController extends Controller
+
+class VochercodeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $ambilpoint = User::select('id', 'point_pembeli')->paginate(10);
-        return  PointResource::collection($ambilpoint);
+        $ambilcodevoucher = Vochercode::select('code','point','status')->paginate(10);
+        return VocherResource::collection($ambilcodevoucher);
     }
 
     /**
@@ -23,13 +24,13 @@ class PointController extends Controller
      */
     public function store(Request $request)
     {
-
+        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Vochercode $vochercode)
     {
         //
     }
@@ -37,7 +38,7 @@ class PointController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Vochercode $vochercode)
     {
         //
     }
@@ -45,7 +46,7 @@ class PointController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Vochercode $vochercode)
     {
         //
     }
