@@ -25,6 +25,7 @@ class User extends Authenticatable
         'email',
         'alamat',
         'password',
+        'role'
     ];
 
     /**
@@ -49,4 +50,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+     // Method untuk memeriksa role
+     public function hasRole($roles)
+     {
+         // Pastikan $roles adalah array
+         $roles = is_array($roles) ? $roles : func_get_args();
+
+         // Periksa apakah role pengguna ada dan cocok dengan role yang diizinkan
+         return $this->role && in_array($this->role, $roles);
+     }
+
 }

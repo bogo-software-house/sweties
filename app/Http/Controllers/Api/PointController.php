@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\ApiResource\PointResource;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class PointController extends Controller
 {
@@ -23,7 +24,13 @@ class PointController extends Controller
      */
     public function store(Request $request)
     {
-
+        if (Auth::check()) {
+            // Mendapatkan user yang sedang login
+            $user = Auth::user();
+            dd($user); // Debugging: Menampilkan data user yang sedang login
+        } else {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
     }
 
     /**

@@ -51,6 +51,7 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'wa'   => $request->wa,
             'alamat'   => $request->alamat,
+            'role' => 'pembeli',
             'email' => $request->email,
             'point_pembeli' => 0,
             'password' => Hash::make($request->password),
